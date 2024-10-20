@@ -1,74 +1,101 @@
-const loadHunting = async (searchText) => {
-    const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
-    const data = await res.json()
-    const phone = data.data
-    displayPhone(phone);
+const loadHunting = async (searchText, isShowAll) => {
+    const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`);
+    const data = await res.json();
+    const phone = data.data;
+    displayPhone(phone, isShowAll);
 }
 
-const displayPhone = phones => {
-    const phoneContainer=document.getElementById('phone-container')
-    // clear phn container before the adding cards 
-    phoneContainer.textContent='';
-    const showAllContainer=document.getElementById('show-all-container')
-    if(phones.length>12){
-        showAllContainer.classList.remove('hidden')
-    }
-    else{
-        showAllContainer.classList.add('hidden')
-    }
+const displayPhone = (phones, isShowAll) => {
+    const phoneContainer = document.getElementById('phone-container');
     
-    //display only output 10 phone 
-    phones=phones.slice(0,12)
-    // console.log(phones);
-    // forEach use we are look the ui one one card 
-    phones.forEach(phone => {
-        console.log(phone);
-        // create a div section
-        const phoneDiv = document.createElement('div')
-        // and add the class list for the card 
-        phoneDiv.classList = `card bg-base-100 bg-orange-500 mt-4 shadow-xl p-2`
-        //get the inner html 
-    phoneDiv.innerHTML = `
-    <figure>
-        <img
+    // Clear phone container before adding new cards
+    phoneContainer.textContent = '';
+
+    const showAllContainer = document.getElementById('show-all-container');
+
+    // Show 'Show All' button if there are more than 12 phones
+    if (phones.length > 12 && !isShowAll) {
+        showAllContainer.classList.remove('hidden');
+    } else {
+        showAllContainer.classList.add('hidden');
+    }
+    // console.log('is show all',isShowAll);
+    // Display only the first 12 phones if not showing all
+    if (!isShowAll) {
+        phones = phones.slice(0, 12);
+    }
+
+    // Display each phone in the UI
+    phones.forEach((phone) => {
+        const phoneDiv = document.createElement('div');
+        phoneDiv.classList = `card bg-base-100 bg-orange-500 mt-4 shadow-xl p-2`;
         
-            src="${phone.image}" />  
+        phoneDiv.innerHTML = `
+        <figure>
+            <img src="${phone.image}" alt="Phone Image" />
         </figure>
         <div class="card-body">
-        <h2 class="card-title text-white">${phone.phone_name}</h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
-        <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
-        </div>
-        </div>
-`;
- phoneContainer.appendChild(phoneDiv)
+            <h2 class="card-title text-white">${phone.phone_name}</h2>
+            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <div class="card-actions justify-center">
+                <button onclick='showDetails("${phone.slug}")' class="btn btn-primary">show details</button>
+            </div>
+        </div>`;
         
+        phoneContainer.appendChild(phoneDiv);
     });
-    // hide the the spinner 
-    toggleLoadSpinner(false)
+
+    // Hide the spinner once the phones are displayed
+    toggleLoadSpinner(false);
+}
+ const showDetails=async(id)=>{
+            // console.log('click me',id);
+            const res=await fetch(`https://openapi.programming-hero.com/api/phone/${id}`)
+            const data =await res.json()
+            const phone=data.data
+            showPhoneDetails(phone)
+ } 
+
+ const showPhoneDetails=(phone)=>{
+    console.log(phone);
     
+    const phoneName=document.getElementById('show-phone-details')
+    phoneName.innerText=phone.name;
+
+    const showDetailContainer=document.getElementById('show-details-container')
+    showDetailContainer.innerHTML=`
+    <img src="${phone.image}" alt=""/>
+    <p>${phone.name}</p>
+    <p>releaseDate '${phone.releaseDate}'</p>
+    <p>brand:${phone.brand}</p>
+    
+    `
+  show_Details_Modal.showModal()
+
+ }
+
+
+
+const searchButton = (isShowAll) => {
+    toggleLoadSpinner(true);
+    const inputField = document.getElementById('input-container');
+    const inputText = inputField.value;
+    inputField.value = '';
+
+    loadHunting(inputText, isShowAll);
 }
 
-const searchButton=()=>{
- const inputField=document.getElementById('input-container')
- const inputText=inputField.value 
- inputField.value=''
-//  console.log(inputText);
-toggleLoadSpinner(true)
-loadHunting(inputText)
-
-}
-
-const toggleLoadSpinner=(isLoading)=>{
-    const spinner=document.getElementById('spinner')
-    if(isLoading){
-        spinner.classList.remove('hidden')
+// Spinner toggle function
+const toggleLoadSpinner = (isLoading) => {
+    const spinner = document.getElementById('spinner');
+    if (isLoading) {
+        spinner.classList.remove('hidden');
+    } else {
+        spinner.classList.add('hidden');
     }
-    else{
-        spinner.classList.add('hidden')
-    }
-
-
 }
-// loadHunting();
+
+// Handle 'Show All' button click
+const handelShowAll = () => {
+    searchButton(true);
+}

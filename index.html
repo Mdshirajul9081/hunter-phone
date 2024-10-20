@@ -1,44 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>phn hunter</title>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.13/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.13/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-
-
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h2 class="text-6xl  text-center">hunting phone</h2>
+      <h2 class="text-6xl text-center">hunting phone</h2>
     </header>
-    <main class="container mx-auto mt-10 ">
-        <section class="bg-slate-100 p-4 m-4 rounded-xl">
-            <input id="input-container"
-                type="text"
-                placeholder="search"
-                class="input input-bordered input-primary w-full max-w-xs" />
-                <button  onclick="searchButton()" class="btn btn-accent">search</button>
-        </section> 
-        
-            
-           <section>
-                <div id="spinner" class="text-center hidden">
-                     <span class="loading loading-spinner text-success"></span>
-                </div>
-                    <div id="phone-container" class="grid grid-cols-1 md:grid-cols-2 
-                    lg:grid-cols-3 gap-4  mt-px">
-                    </div>
-                    <!-- Place show-all-container here, outside phone-container -->
-                    <div id="show-all-container" class="hidden">
-                        <button class="btn btn-accent">show all</button>
-                    </div>
-           </section>
-    </main>
-    <footer>
+    <main class="container mx-auto mt-10">
+      <section class="bg-slate-100 p-4 m-4 rounded-xl">
+        <!-- input container -->
+        <input
+          id="input-container"
+          type="text"
+          placeholder="search"
+          class="input input-bordered input-primary w-full max-w-xs"
+        />
+        <button onclick="searchButton()" class="btn btn-accent">search</button>
+      </section>
 
-    </footer>
+      <section>
+        <!-- search spinner -->
+        <div id="spinner" class="text-center hidden">
+          <span class="loading loading-spinner text-success"></span>
+        </div>
+        <!-- phone container  -->
+        <div
+          id="phone-container"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-px"
+        ></div>
+        <!-- Place show-all-container here, outside phone-container -->
+        <div id="show-all-container" class="hidden text-center my-8">
+          <button onclick="handelShowAll()" class="btn btn-accent">
+            show all
+          </button>
+        </div>
+      </section>
+
+      <!-- show details modal -->
+      <!-- Open the modal using ID.showModal() method -->
+      <dialog id="show_Details_Modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+          <h3 id="show-phone-details" class="text-lg font-bold">hellow</h3>
+          <div id="show-details-container">
+
+          </div>
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+    </main>
+    <footer></footer>
     <script src="js/index.js"></script>
-</body>
+  </body>
 </html>
