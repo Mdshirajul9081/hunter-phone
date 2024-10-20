@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>phn hunter</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.13/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+</head>
+<body>
+    <header>
+        <h2 class="text-6xl  text-center">hunting phone</h2>
+    </header>
+    <main class="container mx-auto mt-10 ">
+
+        <section class="bg-slate-100 p-4 m-4 rounded-xl">
+            <input id="input-container"
+                type="text"
+                placeholder="search"
+                class="input input-bordered input-primary w-full max-w-xs" />
+                <button  onclick="searchButton()" class="btn btn-accent">search</button>
+        </section>
+           <section>
+                    <div id="phone-container" class="grid grid-cols-1 md:grid-cols-2 
+                    lg:grid-cols-3 gap-4  mt-px">
+                        
+
+                    </div>
+           </section>
+    </main>
+    <footer>
+
+    </footer>
+    <script src="js/index.js"></script>
+</body>
+</html>
