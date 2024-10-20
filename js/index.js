@@ -1,5 +1,5 @@
-const loadHunting = async () => {
-    const res = await fetch('https://openapi.programming-hero.com/api/phones?search=iphone')
+const loadHunting = async (searchText) => {
+    const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
     const data = await res.json()
     const phone = data.data
     displayPhone(phone);
@@ -7,6 +7,18 @@ const loadHunting = async () => {
 
 const displayPhone = phones => {
     const phoneContainer=document.getElementById('phone-container')
+    // clear phn container before the adding cards 
+    phoneContainer.textContent='';
+    const showAllContainer=document.getElementById('show-all-container')
+    if(phones.length>12){
+        showAllContainer.classList.remove('hidden')
+    }
+    else{
+        showAllContainer.classList.add('hidden')
+    }
+    
+    //display only output 10 phone 
+    phones=phones.slice(0,12)
     // console.log(phones);
     // forEach use we are look the ui one one card 
     phones.forEach(phone => {
@@ -29,22 +41,34 @@ const displayPhone = phones => {
             <button class="btn btn-primary">Buy Now</button>
         </div>
         </div>
-
-
 `;
  phoneContainer.appendChild(phoneDiv)
         
     });
+    // hide the the spinner 
+    toggleLoadSpinner(false)
     
-    
-   
-
 }
 
 const searchButton=()=>{
  const inputField=document.getElementById('input-container')
  const inputText=inputField.value 
- console.log(inputText);
+ inputField.value=''
+//  console.log(inputText);
+toggleLoadSpinner(true)
+loadHunting(inputText)
 
 }
-loadHunting();
+
+const toggleLoadSpinner=(isLoading)=>{
+    const spinner=document.getElementById('spinner')
+    if(isLoading){
+        spinner.classList.remove('hidden')
+    }
+    else{
+        spinner.classList.add('hidden')
+    }
+
+
+}
+// loadHunting();
